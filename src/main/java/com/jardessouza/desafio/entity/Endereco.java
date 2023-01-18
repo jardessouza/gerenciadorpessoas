@@ -26,10 +26,13 @@ public class Endereco {
     @Column(nullable = false, length = 10)
     private Long numero;
 
-    @Column(nullable = false, length = 23)
+    @Column(nullable = false, length = 25)
     private String cidade;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private PrioridadeEndereco prioridadeEndereco;
+
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    private Pessoa pessoa;
 }
