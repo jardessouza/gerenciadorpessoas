@@ -12,4 +12,5 @@ public interface EnderecoMapper {
 
     Endereco toModel(EnderecoRequestDTO enderecoDTO);
     EnderecoResponseDTO toDTO(Endereco endereco);
+    EnderecoResponseDTO toDTO(EnderecoRequestDTO enderecoRequestDTO);
 }

@@ -9,7 +9,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 @Data
-public class PessoaRequestDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class PessoaDTO {
+
+    @NotNull
+    private Long id;
 
     @NotBlank
     private String nome;

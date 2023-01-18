@@ -1,6 +1,5 @@
 package com.jardessouza.desafio.dto;
 
-import com.jardessouza.desafio.entity.Pessoa;
 import com.jardessouza.desafio.enums.PrioridadeEndereco;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class EnderecoResponseDTO {
 
     private String cidade;
 
-    private Pessoa pessoa;
+    PessoaDTO pessoa;
 
     private PrioridadeEndereco prioridadeEndereco;
 }
