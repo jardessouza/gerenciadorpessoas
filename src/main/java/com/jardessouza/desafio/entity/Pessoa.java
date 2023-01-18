@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "TB_PESSOAS")
@@ -24,4 +25,7 @@ public class Pessoa {
 
     @Column(name = "dataNascimento", nullable = false)
     private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
+    private List<Endereco> endereco;
 }
