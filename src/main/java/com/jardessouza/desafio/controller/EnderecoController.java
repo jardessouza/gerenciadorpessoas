@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("v1/gerenciarpessoas/endereco")
@@ -22,6 +23,11 @@ public class EnderecoController {
             @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO){
         return new ResponseEntity<>(this.enderecoService
                 .create(nomePessoa,enderecoRequestDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/{nomePessoa}")
+    public ResponseEntity<List<EnderecoResponseDTO>> listarEnderecosPessoa(@PathVariable String nomePessoa){
+        return ResponseEntity.ok(this.enderecoService.listarEnderecosDaPessoa(nomePessoa));
     }
 
 

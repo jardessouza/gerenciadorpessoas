@@ -1,13 +1,13 @@
 package com.jardessouza.desafio.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.SortComparator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
 
 @Entity
 @Table(name = "TB_PESSOAS")
@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +29,13 @@ public class Pessoa {
     private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
-    private List<Endereco> endereco;
+    @SortComparator(ClasseComparator.class)
+    private SortedSet<Endereco> endereco;
+
+    public static class ClasseComparator implements Comparator<Endereco>{
+        @Override
+        public int compare(Endereco o1, Endereco o2) {
+            return o1.getPrioridadeEndereco().compareTo(o2.getPrioridadeEndereco());
+        }
+    }
 }

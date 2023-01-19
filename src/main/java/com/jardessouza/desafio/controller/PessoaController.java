@@ -1,6 +1,5 @@
 package com.jardessouza.desafio.controller;
 
-import com.jardessouza.desafio.dto.PessoaDTO;
 import com.jardessouza.desafio.dto.PessoaRequestDTO;
 import com.jardessouza.desafio.dto.PessoaResponseDTO;
 import com.jardessouza.desafio.entity.Pessoa;
@@ -17,18 +16,17 @@ import java.util.List;
 @RequestMapping("v1/gerenciarpessoas/pessoa")
 @RequiredArgsConstructor
 public class PessoaController {
-
     private final PessoaService pessoaService;
 
-
     @PostMapping
-    public ResponseEntity<PessoaRequestDTO> salvarPessoa(@RequestBody @Valid PessoaRequestDTO pessoaDTO){
-        return new ResponseEntity<>(this.pessoaService.salvarPessoa(pessoaDTO), HttpStatus.CREATED);
+    public ResponseEntity<PessoaResponseDTO> salvarPessoa(@RequestBody @Valid PessoaRequestDTO pessoaRequestDTO){
+        return new ResponseEntity<>(this.pessoaService.salvarPessoa(pessoaRequestDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> editarPessoa(@RequestBody PessoaDTO pessoaDTO){
-        this.pessoaService.editarPessoa(pessoaDTO);
+    @PutMapping(path = "/{pessoaId}")
+    public ResponseEntity<Void> editarPessoa(@PathVariable Long pessoaId,
+                                             @RequestBody PessoaRequestDTO pessoaRequestDTO){
+        this.pessoaService.editarPessoa(pessoaId, pessoaRequestDTO);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

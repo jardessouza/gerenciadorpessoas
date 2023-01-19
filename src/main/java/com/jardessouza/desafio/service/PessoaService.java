@@ -1,6 +1,5 @@
 package com.jardessouza.desafio.service;
 
-import com.jardessouza.desafio.dto.PessoaDTO;
 import com.jardessouza.desafio.dto.PessoaRequestDTO;
 import com.jardessouza.desafio.dto.PessoaResponseDTO;
 import com.jardessouza.desafio.entity.Pessoa;
@@ -22,16 +21,16 @@ public class PessoaService {
         this.pessoaRepository = pessoaRepository;
     }
 
-    public PessoaRequestDTO salvarPessoa(PessoaRequestDTO pessoaRequestDTO){
+    public PessoaResponseDTO salvarPessoa(PessoaRequestDTO pessoaRequestDTO){
         Pessoa pessoaCriada = PessoaMapper.INSTANCE.toModel(pessoaRequestDTO);
         this.pessoaRepository.save(pessoaCriada);
-        return pessoaRequestDTO;
+        return PessoaMapper.INSTANCE.toDTO(pessoaCriada);
     }
 
-    public void editarPessoa(PessoaDTO pessoaDTO){
-        Pessoa pessoaEncontrada = verificarSePessoaExiste(pessoaDTO.getId());;
-        pessoaDTO.setId(pessoaEncontrada.getId());
-        this.pessoaRepository.save(PessoaMapper.INSTANCE.toModel(pessoaDTO));
+    public void editarPessoa(Long pessoaId, PessoaRequestDTO pessoaRequestDTO){
+        Pessoa pessoaEncontrada = verificarSePessoaExiste(pessoaId);;
+        pessoaRequestDTO.setId(pessoaEncontrada.getId());
+        this.pessoaRepository.save(PessoaMapper.INSTANCE.toModel(pessoaRequestDTO));
     }
 
     public List<PessoaResponseDTO> listarPessoas(){

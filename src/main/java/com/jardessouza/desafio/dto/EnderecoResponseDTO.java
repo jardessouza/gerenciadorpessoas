@@ -4,6 +4,7 @@ import com.jardessouza.desafio.enums.PrioridadeEndereco;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SortNatural;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class EnderecoResponseDTO {
 
     private String cidade;
 
-    PessoaDTO pessoa;
+    private PessoaDTO pessoa;
 
     private PrioridadeEndereco prioridadeEndereco;
 }
