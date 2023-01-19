@@ -7,7 +7,7 @@ import com.jardessouza.desafio.endereco.builder.EnderecoDTOBuilder;
 import com.jardessouza.desafio.entity.Endereco;
 import com.jardessouza.desafio.entity.Pessoa;
 import com.jardessouza.desafio.mapper.PessoaMapper;
-import com.jardessouza.desafio.pessoa.builder.PessoaBuilderDTO;
+import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import com.jardessouza.desafio.repository.EnderecoRepository;
 import com.jardessouza.desafio.service.EnderecoService;
 import com.jardessouza.desafio.service.PessoaService;
@@ -37,20 +37,20 @@ public class EnderecoServiceTest {
 
     private EnderecoDTOBuilder enderecoDTOBuilder;
 
-    private PessoaBuilderDTO pessoaBuilderDTO;
+    private PessoaDTOBuilder pessoaDTOBuilder;
     @BeforeEach
     void setUp(){
         enderecoDTOBuilder = EnderecoDTOBuilder.builder().build();
-        pessoaBuilderDTO = PessoaBuilderDTO.builder().build();
+        pessoaDTOBuilder = PessoaDTOBuilder.builder().build();
 
         BDDMockito.when(this.pessoaServiceMock.salvarPessoa(ArgumentMatchers.any(PessoaRequestDTO.class)))
-                        .thenReturn(PessoaMapper.INSTANCE.toDTO(pessoaBuilderDTO.construirPessoaDTO()));
+                        .thenReturn(PessoaMapper.INSTANCE.toDTO(pessoaDTOBuilder.construirPessoaDTO()));
 
-        BDDMockito.when(this.pessoaServiceMock.verificarSePessoaExiste(ArgumentMatchers.anyLong()))
-                        .thenReturn(pessoaBuilderDTO.criarPessoa());
+        BDDMockito.when(this.pessoaServiceMock.localizarEobterPessoa(ArgumentMatchers.anyLong()))
+                        .thenReturn(pessoaDTOBuilder.criarPessoa());
 
-        BDDMockito.when(this.pessoaServiceMock.verificarSePessoaExiste(
-                ArgumentMatchers.eq(pessoaBuilderDTO.criarPessoa().getNome())))
+        BDDMockito.when(this.pessoaServiceMock.localizarEobterPessoa(
+                ArgumentMatchers.eq(pessoaDTOBuilder.criarPessoa().getNome())))
                         .thenReturn(new Pessoa());
 
         BDDMockito.when(this.enderecoRepositoryMock.save(ArgumentMatchers.any(Endereco.class)))

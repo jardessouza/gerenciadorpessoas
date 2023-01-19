@@ -5,7 +5,7 @@ import com.jardessouza.desafio.dto.PessoaRequestDTO;
 import com.jardessouza.desafio.dto.PessoaResponseDTO;
 import com.jardessouza.desafio.entity.Pessoa;
 import com.jardessouza.desafio.mapper.PessoaMapper;
-import com.jardessouza.desafio.pessoa.builder.PessoaBuilderDTO;
+import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import com.jardessouza.desafio.service.PessoaService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 public class PessoaControllerTest {
-    private PessoaBuilderDTO pessoaBuilderDTO;
+    private PessoaDTOBuilder pessoaDTOBuilder;
     @InjectMocks
     private PessoaController pessoaController;
     @Mock
@@ -31,21 +31,21 @@ public class PessoaControllerTest {
 
     @BeforeEach
     void setUp() {
-        pessoaBuilderDTO = PessoaBuilderDTO.builder().build();
+        pessoaDTOBuilder = PessoaDTOBuilder.builder().build();
 
         BDDMockito.when(this.pessoaServiceMock.listarPessoas())
-                .thenReturn(List.of(PessoaMapper.INSTANCE.toDTO(pessoaBuilderDTO.criarPessoa())));
+                .thenReturn(List.of(PessoaMapper.INSTANCE.toDTO(pessoaDTOBuilder.criarPessoa())));
 
         BDDMockito.when(this.pessoaServiceMock.salvarPessoa(ArgumentMatchers.any(PessoaRequestDTO.class)))
-                .thenReturn(PessoaMapper.INSTANCE.toDTO(pessoaBuilderDTO.criarPessoa()));
+                .thenReturn(PessoaMapper.INSTANCE.toDTO(pessoaDTOBuilder.criarPessoa()));
 
-        BDDMockito.when(this.pessoaServiceMock.verificarSePessoaExiste(ArgumentMatchers.anyLong()))
-                .thenReturn(pessoaBuilderDTO.criarPessoa());
+        BDDMockito.when(this.pessoaServiceMock.localizarEobterPessoa(ArgumentMatchers.anyLong()))
+                .thenReturn(pessoaDTOBuilder.criarPessoa());
     }
 
     @Test
     void QuandoObterSucessoRetornaListaPessoas() {
-        String nomeEsperado = pessoaBuilderDTO.construirPessoaDTO().getNome();
+        String nomeEsperado = pessoaDTOBuilder.construirPessoaDTO().getNome();
         List<PessoaResponseDTO> listaPessoas = this.pessoaController.listarPessoas().getBody();
 
         Assertions.assertThat(listaPessoas)
@@ -57,7 +57,7 @@ public class PessoaControllerTest {
 
     @Test
     void QuandoObterSucessoSalvarERetornarPessoa() {
-        PessoaRequestDTO pessoaParaSalvar = pessoaBuilderDTO.construirPessoaDTO();
+        PessoaRequestDTO pessoaParaSalvar = pessoaDTOBuilder.construirPessoaDTO();
         PessoaResponseDTO pessoaCriada = this.pessoaController.salvarPessoa(pessoaParaSalvar).getBody();
 
         Assertions.assertThat(pessoaCriada.getId())
@@ -68,10 +68,10 @@ public class PessoaControllerTest {
     @Test
     void QuandoObterSucessoAtualizarPessoa() {
         Assertions.assertThatCode(() -> this.pessoaController
-                        .editarPessoa(1L, pessoaBuilderDTO.construirPessoaDTO()))
+                        .editarPessoa(1L, pessoaDTOBuilder.construirPessoaDTO()))
                 .doesNotThrowAnyException();
         ResponseEntity<Void> pessoa = this.pessoaController
-                .editarPessoa(1L, pessoaBuilderDTO.construirPessoaDTO());
+                .editarPessoa(1L, pessoaDTOBuilder.construirPessoaDTO());
 
         Assertions.assertThat(pessoa).isNotNull();
         Assertions.assertThat(pessoa.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -79,7 +79,7 @@ public class PessoaControllerTest {
 
     @Test
     void QuandoEncontrarIdRetornarPessoaComSucesso() {
-        Long idEsperado = pessoaBuilderDTO.construirPessoaDTO().getId();
+        Long idEsperado = pessoaDTOBuilder.construirPessoaDTO().getId();
         Pessoa pessoaEncontrada = this.pessoaController.consultarUmaPessoa(1L).getBody();
         Assertions.assertThat(pessoaEncontrada).isNotNull();
         Assertions.assertThat(pessoaEncontrada.getId()).isEqualTo(idEsperado);

@@ -32,7 +32,7 @@ public class PessoaController {
 
     @GetMapping(path = "/{pessoaId}")
     public ResponseEntity<Pessoa> consultarUmaPessoa(@PathVariable Long pessoaId){
-        return ResponseEntity.ok(this.pessoaService.verificarSePessoaExiste(pessoaId));
+        return ResponseEntity.ok(this.pessoaService.localizarEobterPessoa(pessoaId));
     }
 
     @GetMapping

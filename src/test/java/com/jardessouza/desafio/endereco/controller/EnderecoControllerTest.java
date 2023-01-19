@@ -6,7 +6,7 @@ import com.jardessouza.desafio.dto.EnderecoResponseDTO;
 import com.jardessouza.desafio.endereco.builder.EnderecoDTOBuilder;
 import com.jardessouza.desafio.entity.Pessoa;
 import com.jardessouza.desafio.mapper.EnderecoMapper;
-import com.jardessouza.desafio.pessoa.builder.PessoaBuilderDTO;
+import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import com.jardessouza.desafio.service.EnderecoService;
 import com.jardessouza.desafio.service.PessoaService;
 import org.assertj.core.api.Assertions;
@@ -31,18 +31,18 @@ public class EnderecoControllerTest {
     private PessoaService pessoaServiceMock;
     private EnderecoDTOBuilder enderecoDTOBuilder;
 
-    private PessoaBuilderDTO pessoaBuilderDTO;
+    private PessoaDTOBuilder pessoaDTOBuilder;
 
     @BeforeEach
     void setUp(){
         enderecoDTOBuilder = EnderecoDTOBuilder.builder().build();
-        pessoaBuilderDTO = PessoaBuilderDTO.builder().build();
+        pessoaDTOBuilder = PessoaDTOBuilder.builder().build();
 
-        BDDMockito.when(this.pessoaServiceMock.verificarSePessoaExiste(ArgumentMatchers.anyLong()))
+        BDDMockito.when(this.pessoaServiceMock.localizarEobterPessoa(ArgumentMatchers.anyLong()))
                 .thenReturn(new Pessoa());
 
-        BDDMockito.when(this.pessoaServiceMock.verificarSePessoaExiste(
-                        ArgumentMatchers.eq(pessoaBuilderDTO.criarPessoa().getNome())))
+        BDDMockito.when(this.pessoaServiceMock.localizarEobterPessoa(
+                        ArgumentMatchers.eq(pessoaDTOBuilder.criarPessoa().getNome())))
                 .thenReturn(new Pessoa());
 
         BDDMockito.when(this.enderecoServiceMock.create(

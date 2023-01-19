@@ -3,7 +3,7 @@ package com.jardessouza.desafio.endereco.builder;
 import com.jardessouza.desafio.dto.EnderecoRequestDTO;
 import com.jardessouza.desafio.entity.Endereco;
 import com.jardessouza.desafio.enums.PrioridadeEndereco;
-import com.jardessouza.desafio.pessoa.builder.PessoaBuilderDTO;
+import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import lombok.Builder;
 @Builder
 public class EnderecoDTOBuilder {
@@ -40,7 +40,16 @@ public class EnderecoDTOBuilder {
                 .cep(cep)
                 .numero(numero)
                 .cidade(cidade)
-                .pessoa(PessoaBuilderDTO.builder().build().criarPessoa())
+                .pessoa(PessoaDTOBuilder.builder().build().criarPessoa())
+                .build();
+    }
+    public Endereco criarEnderecoSemId(){
+        return Endereco.builder()
+                .logadouro(logadouro)
+                .cep(cep)
+                .numero(numero)
+                .cidade(cidade)
+                .pessoa(PessoaDTOBuilder.builder().build().criarPessoa())
                 .build();
     }
 }

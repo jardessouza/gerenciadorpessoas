@@ -13,5 +13,6 @@ public interface PessoaMapper {
     Pessoa toModel(PessoaRequestDTO pessoaRequestDTO);
     PessoaResponseDTO toDTO(Pessoa pessoa);
     PessoaResponseDTO toDTO(PessoaRequestDTO pessoaRequestDTO);
+    PessoaRequestDTO toDTORequest(Pessoa pessoa);
 
 }
