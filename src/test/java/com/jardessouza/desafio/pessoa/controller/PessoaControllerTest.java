@@ -1,12 +1,13 @@
 package com.jardessouza.desafio.pessoa.controller;
 
-import com.jardessouza.desafio.controller.PessoaController;
-import com.jardessouza.desafio.dto.PessoaRequestDTO;
-import com.jardessouza.desafio.dto.PessoaResponseDTO;
-import com.jardessouza.desafio.entity.Pessoa;
-import com.jardessouza.desafio.mapper.PessoaMapper;
+import com.jardessouza.desafio.pessoa.dto.MessageDTO;
+import com.jardessouza.desafio.pessoa.dto.PessoaRequestDTO;
+import com.jardessouza.desafio.pessoa.dto.PessoaResponseDTO;
+import com.jardessouza.desafio.pessoa.entity.Pessoa;
+import com.jardessouza.desafio.pessoa.mapper.PessoaMapper;
 import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
-import com.jardessouza.desafio.service.PessoaService;
+import com.jardessouza.desafio.pessoa.service.PessoaService;
+import com.jardessouza.desafio.pessoa.util.MessageDTOUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -32,6 +34,10 @@ public class PessoaControllerTest {
     @BeforeEach
     void setUp() {
         pessoaDTOBuilder = PessoaDTOBuilder.builder().build();
+
+        BDDMockito.when(this.pessoaServiceMock.consutarUmaPessoa(ArgumentMatchers.anyLong()))
+                        .thenReturn(MessageDTOUtils
+                                .retornarMensagemComDadosDaPessoa(1L, "Jardes Souza", LocalDate.now()));
 
         BDDMockito.when(this.pessoaServiceMock.listarPessoas())
                 .thenReturn(List.of(PessoaMapper.INSTANCE.toDTO(pessoaDTOBuilder.criarPessoa())));
@@ -79,10 +85,9 @@ public class PessoaControllerTest {
 
     @Test
     void QuandoEncontrarIdRetornarPessoaComSucesso() {
-        Long idEsperado = pessoaDTOBuilder.construirPessoaDTO().getId();
-        Pessoa pessoaEncontrada = this.pessoaController.consultarUmaPessoa(1L).getBody();
-        Assertions.assertThat(pessoaEncontrada).isNotNull();
-        Assertions.assertThat(pessoaEncontrada.getId()).isEqualTo(idEsperado);
+        MessageDTO mensagemPessoa = this.pessoaController.consultarPessoa(1L).getBody();
+        Assertions.assertThat(mensagemPessoa).isNotNull();
+        Assertions.assertThat(mensagemPessoa.getMessage()).isNotEmpty();
     }
 
 }

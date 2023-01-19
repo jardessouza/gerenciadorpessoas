@@ -1,14 +1,13 @@
 package com.jardessouza.desafio.pessoa.service;
 
-import com.jardessouza.desafio.dto.PessoaRequestDTO;
-import com.jardessouza.desafio.dto.PessoaResponseDTO;
-import com.jardessouza.desafio.entity.Pessoa;
-import com.jardessouza.desafio.exception.PessoaJaExisteException;
-import com.jardessouza.desafio.exception.PessoaNaoEncontradaException;
-import com.jardessouza.desafio.mapper.PessoaMapper;
+import com.jardessouza.desafio.pessoa.dto.PessoaRequestDTO;
+import com.jardessouza.desafio.pessoa.dto.PessoaResponseDTO;
+import com.jardessouza.desafio.pessoa.entity.Pessoa;
+import com.jardessouza.desafio.pessoa.exception.PessoaJaExisteException;
+import com.jardessouza.desafio.pessoa.exception.PessoaNaoEncontradaException;
+import com.jardessouza.desafio.pessoa.mapper.PessoaMapper;
 import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
-import com.jardessouza.desafio.repository.PessoaRepository;
-import com.jardessouza.desafio.service.PessoaService;
+import com.jardessouza.desafio.pessoa.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
