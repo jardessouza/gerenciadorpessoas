@@ -1,14 +1,13 @@
 package com.jardessouza.desafio.endereco.controller;
 
-import com.jardessouza.desafio.controller.EnderecoController;
-import com.jardessouza.desafio.dto.EnderecoRequestDTO;
-import com.jardessouza.desafio.dto.EnderecoResponseDTO;
+import com.jardessouza.desafio.endereco.dto.EnderecoRequestDTO;
+import com.jardessouza.desafio.endereco.dto.EnderecoResponseDTO;
 import com.jardessouza.desafio.endereco.builder.EnderecoDTOBuilder;
-import com.jardessouza.desafio.entity.Pessoa;
-import com.jardessouza.desafio.mapper.EnderecoMapper;
+import com.jardessouza.desafio.pessoa.entity.Pessoa;
+import com.jardessouza.desafio.endereco.mapper.EnderecoMapper;
 import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
-import com.jardessouza.desafio.service.EnderecoService;
-import com.jardessouza.desafio.service.PessoaService;
+import com.jardessouza.desafio.endereco.service.EnderecoService;
+import com.jardessouza.desafio.pessoa.service.PessoaService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

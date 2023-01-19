@@ -1,8 +1,8 @@
 package com.jardessouza.desafio.endereco.builder;
 
-import com.jardessouza.desafio.dto.EnderecoRequestDTO;
-import com.jardessouza.desafio.entity.Endereco;
-import com.jardessouza.desafio.enums.PrioridadeEndereco;
+import com.jardessouza.desafio.endereco.dto.EnderecoRequestDTO;
+import com.jardessouza.desafio.endereco.entity.Endereco;
+import com.jardessouza.desafio.endereco.enums.PrioridadeEndereco;
 import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import lombok.Builder;
 @Builder
@@ -50,6 +50,16 @@ public class EnderecoDTOBuilder {
                 .numero(numero)
                 .cidade(cidade)
                 .pessoa(PessoaDTOBuilder.builder().build().criarPessoa())
+                .build();
+    }
+
+    public Endereco criarEnderecoSemIdEPessoa(){
+        return Endereco.builder()
+                .logadouro(logadouro)
+                .cep(cep)
+                .numero(numero)
+                .cidade(cidade)
+                .prioridadeEndereco(PrioridadeEndereco.EnderecoPrincipal)
                 .build();
     }
 }

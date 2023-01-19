@@ -1,8 +1,7 @@
 package com.jardessouza.desafio.pessoa.repository;
 
-import com.jardessouza.desafio.entity.Pessoa;
+import com.jardessouza.desafio.pessoa.entity.Pessoa;
 import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
-import com.jardessouza.desafio.repository.PessoaRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

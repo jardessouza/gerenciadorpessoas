@@ -1,7 +1,7 @@
 package com.jardessouza.desafio.pessoa.builder;
 
-import com.jardessouza.desafio.dto.PessoaRequestDTO;
-import com.jardessouza.desafio.entity.Pessoa;
+import com.jardessouza.desafio.pessoa.dto.PessoaRequestDTO;
+import com.jardessouza.desafio.pessoa.entity.Pessoa;
 import lombok.Builder;
 
 import java.time.LocalDate;
