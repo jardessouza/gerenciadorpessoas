@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("v1/gerenciarpessoas/pessoa")
 @RequiredArgsConstructor
-public class PessoaController {
+public class PessoaController implements PessoaControllerDocs {
     private final PessoaService pessoaService;
 
     @PostMapping

@@ -1,12 +1,14 @@
 package com.jardessouza.desafio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.*;
 import org.hibernate.annotations.SortComparator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.List;
 import java.util.SortedSet;
 
 @Entity

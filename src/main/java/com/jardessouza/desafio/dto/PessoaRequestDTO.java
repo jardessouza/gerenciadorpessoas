@@ -1,6 +1,5 @@
 package com.jardessouza.desafio.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,5 @@ public class PessoaRequestDTO {
     private String nome;
 
     @NotNull
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dataNascimento;
 }
