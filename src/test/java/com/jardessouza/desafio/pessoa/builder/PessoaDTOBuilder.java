@@ -7,7 +7,7 @@ import lombok.Builder;
 import java.time.LocalDate;
 
 @Builder
-public class PessoaBuilderDTO {
+public class PessoaDTOBuilder {
     @Builder.Default
     private Long id = 1L;
     @Builder.Default
@@ -22,7 +22,6 @@ public class PessoaBuilderDTO {
                 dataNascimento
         );
     }
-
     public Pessoa criarPessoa(){
         return Pessoa.builder()
                 .id(id)

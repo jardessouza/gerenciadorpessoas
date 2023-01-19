@@ -23,7 +23,7 @@ public class EnderecoService {
     }
 
    public EnderecoResponseDTO create(String nome, EnderecoRequestDTO enderecoRequestDTO){
-       Pessoa pessoaEncontrada = this.pessoaService.verificarSePessoaExiste(nome);
+       Pessoa pessoaEncontrada = this.pessoaService.localizarEobterPessoa(nome);
        Endereco enderecoParaSalvar = EnderecoMapper.INSTANCE.toModel(enderecoRequestDTO);
        enderecoParaSalvar.setPessoa(pessoaEncontrada);
 
@@ -33,7 +33,7 @@ public class EnderecoService {
    }
 
    public List<EnderecoResponseDTO> listarEnderecosDaPessoa(String nomePessoa){
-       Pessoa pessoaEncontrada = this.pessoaService.verificarSePessoaExiste(nomePessoa);
+       Pessoa pessoaEncontrada = this.pessoaService.localizarEobterPessoa(nomePessoa);
 
        return this.enderecoRepository.findAllByPessoa(pessoaEncontrada).stream()
                .map(EnderecoMapper.INSTANCE::toDTO)

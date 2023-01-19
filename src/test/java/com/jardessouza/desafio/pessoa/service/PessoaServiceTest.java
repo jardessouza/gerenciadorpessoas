@@ -3,8 +3,10 @@ package com.jardessouza.desafio.pessoa.service;
 import com.jardessouza.desafio.dto.PessoaRequestDTO;
 import com.jardessouza.desafio.dto.PessoaResponseDTO;
 import com.jardessouza.desafio.entity.Pessoa;
+import com.jardessouza.desafio.exception.PessoaJaExisteException;
+import com.jardessouza.desafio.exception.PessoaNaoEncontradaException;
 import com.jardessouza.desafio.mapper.PessoaMapper;
-import com.jardessouza.desafio.pessoa.builder.PessoaBuilderDTO;
+import com.jardessouza.desafio.pessoa.builder.PessoaDTOBuilder;
 import com.jardessouza.desafio.repository.PessoaRepository;
 import com.jardessouza.desafio.service.PessoaService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ import java.util.Optional;
 @ExtendWith(SpringExtension.class)
 @RequiredArgsConstructor
 public class PessoaServiceTest {
-    private PessoaBuilderDTO pessoaBuilderDTO;
+    private PessoaDTOBuilder pessoaDTOBuilder;
     @InjectMocks
     private PessoaService pessoaService;
     @Mock
@@ -33,51 +35,62 @@ public class PessoaServiceTest {
 
     @BeforeEach
     void setUp(){
-        pessoaBuilderDTO = PessoaBuilderDTO.builder().build();
+        pessoaDTOBuilder = PessoaDTOBuilder.builder().build();
+
         BDDMockito.when(this.pessoaRepositoryMock.save(ArgumentMatchers.any(Pessoa.class)))
-                .thenReturn(PessoaMapper.INSTANCE.toModel(pessoaBuilderDTO.construirPessoaDTO()));
+                        .thenReturn(pessoaDTOBuilder.criarPessoa());
 
         BDDMockito.when(this.pessoaRepositoryMock.findById(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.of(pessoaBuilderDTO.criarPessoa()));
+                .thenReturn(Optional.of(pessoaDTOBuilder.criarPessoa()));
 
         BDDMockito.when(this.pessoaRepositoryMock.findByNome(ArgumentMatchers.anyString()))
-                .thenReturn(Optional.of(pessoaBuilderDTO.criarPessoa()));
+                .thenReturn(Optional.of(pessoaDTOBuilder.criarPessoa()));
 
         BDDMockito.when(this.pessoaRepositoryMock.findAll())
-                .thenReturn(List.of(pessoaBuilderDTO.criarPessoa()));
+                .thenReturn(List.of(pessoaDTOBuilder.criarPessoa()));
 
     }
 
     @Test
-    void QuandoObterSucessoRetornaPessoa(){
-        PessoaRequestDTO pessoaEsperada = pessoaBuilderDTO.construirPessoaDTO();
-        PessoaResponseDTO pessoaCriada =
-                this.pessoaService.salvarPessoa(pessoaBuilderDTO.construirPessoaDTO());
+    void QuandoSalvarEobterSucessoRetornaPessoa(){
+        BDDMockito.when(this.pessoaRepositoryMock.findByNome(ArgumentMatchers.anyString()))
+                .thenReturn(Optional.empty());
+
+        PessoaRequestDTO pessoaEsperada = pessoaDTOBuilder.construirPessoaDTO();
+
+        PessoaResponseDTO pessoaCriada = this.pessoaService.salvarPessoa
+                (PessoaMapper.INSTANCE.toDTORequest(pessoaDTOBuilder.criarPessoa()));
 
         Assertions.assertThat(pessoaCriada.getId()).isNotNull();
-        Assertions.assertThat(pessoaCriada.getNome()).isEqualTo(pessoaEsperada.getNome());
+        Assertions.assertThat(pessoaEsperada.getNome()).isEqualTo(pessoaEsperada.getNome());
     }
 
+    @Test
+    void QuandoSalvarEexistirNomeRetornarExcessao(){
+        Assertions.assertThatExceptionOfType(PessoaJaExisteException.class)
+                .isThrownBy(() -> this.pessoaService
+                        .salvarPessoa(PessoaMapper.INSTANCE.toDTORequest(pessoaDTOBuilder.criarPessoa())));
+    }
     @Test
     void QuandoObterSucessoAtualizarPessoa(){
         Assertions.assertThatCode(() -> this.pessoaService
-                        .editarPessoa(1L, pessoaBuilderDTO.construirPessoaDTO()))
+                        .editarPessoa(1L, pessoaDTOBuilder.construirPessoaDTO()))
                         .doesNotThrowAnyException();
     }
 
     @Test
-    void QuandoNaoObterSucessoRetornarExcessao(){
+    void QuandoBuscarIdENaoObterSucessoRetornarExcessao(){
         BDDMockito.when(this.pessoaRepositoryMock.findById(ArgumentMatchers.anyLong()))
                 .thenReturn(Optional.empty());
 
         Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
-                .isThrownBy(() -> this.pessoaService.verificarSePessoaExiste(1L));
+                .isThrownBy(() -> this.pessoaService.localizarEobterPessoa(1L));
     }
 
     @Test
     void QuandoBuscarNomeRetornarPessoaComSucesso(){
         Assertions.assertThatCode(() -> this.pessoaService
-                .verificarSePessoaExiste("Jardes Souza"))
+                .localizarEobterPessoa("Jardes Souza"))
                 .doesNotThrowAnyException();
     }
 
@@ -86,13 +99,13 @@ public class PessoaServiceTest {
         BDDMockito.when(this.pessoaRepositoryMock.findByNome(ArgumentMatchers.anyString()))
                 .thenReturn(Optional.empty());
 
-        Assertions.assertThatExceptionOfType(EntityNotFoundException.class)
-                .isThrownBy(() -> this.pessoaService.verificarSePessoaExiste("Jardes Souza"));
+        Assertions.assertThatExceptionOfType(PessoaNaoEncontradaException.class)
+                .isThrownBy(() -> this.pessoaService.localizarEobterPessoa("Jardes Souza"));
     }
 
     @Test
     void QuantoObterSucessoRetornaListaPessoas(){
-        String nomeEsperado = pessoaBuilderDTO.construirPessoaDTO().getNome();
+        String nomeEsperado = pessoaDTOBuilder.construirPessoaDTO().getNome();
         List<PessoaResponseDTO> listarPessoas = this.pessoaService.listarPessoas();
 
         Assertions.assertThat(listarPessoas)
