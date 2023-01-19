@@ -8,6 +8,10 @@ import com.jardessouza.desafio.mapper.EnderecoMapper;
 import com.jardessouza.desafio.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class EnderecoService {
     private final EnderecoRepository enderecoRepository;
@@ -26,6 +30,15 @@ public class EnderecoService {
        Endereco enderecoSalvo = this.enderecoRepository.save(enderecoParaSalvar);
 
        return EnderecoMapper.INSTANCE.toDTO(enderecoSalvo);
+   }
+
+   public List<EnderecoResponseDTO> listarEnderecosDaPessoa(String nomePessoa){
+       Pessoa pessoaEncontrada = this.pessoaService.verificarSePessoaExiste(nomePessoa);
+
+       return this.enderecoRepository.findAllByPessoa(pessoaEncontrada).stream()
+               .map(EnderecoMapper.INSTANCE::toDTO)
+               .sorted(Comparator.comparing(EnderecoResponseDTO::getPrioridadeEndereco))
+               .collect(Collectors.toList());
    }
 
 }

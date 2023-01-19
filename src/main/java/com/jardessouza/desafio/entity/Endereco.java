@@ -13,7 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Endereco {
+@Builder
+public class Endereco implements Comparable<Endereco> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,4 +38,9 @@ public class Endereco {
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
+
+    @Override
+    public int compareTo(Endereco o) {
+        return prioridadeEndereco.compareTo(o.getPrioridadeEndereco());
+    }
 }

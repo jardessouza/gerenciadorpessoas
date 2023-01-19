@@ -28,8 +28,5 @@ public class EnderecoRequestDTO {
     private String cidade;
 
     @NotNull
-    private Long pessoaId;
-
-    @NotNull
     private PrioridadeEndereco prioridadeEndereco;
 }
