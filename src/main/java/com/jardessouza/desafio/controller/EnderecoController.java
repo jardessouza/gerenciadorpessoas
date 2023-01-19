@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("v1/gerenciarpessoas/endereco")
 @RequiredArgsConstructor
-public class EnderecoController {
+public class EnderecoController implements EnderecoControllerDocs {
     private final EnderecoService enderecoService;
 
     @PostMapping(path = "/{nomePessoa}")

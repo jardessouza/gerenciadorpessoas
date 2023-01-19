@@ -20,6 +20,5 @@ public class PessoaDTO {
     private String nome;
 
     @NotNull
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dataNascimento;
 }
