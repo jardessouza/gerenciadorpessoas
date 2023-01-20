@@ -12,13 +12,14 @@ import java.util.List;
 
 public interface PessoaControllerDocs {
     @Operation(summary = "Operacao de criacao de Pessoa",
-    description = "Formato de data para criar pessoa yyyy-MM-dd")
+    description = "OBS: Formato de data para criar pessoa yyyy-MM-dd")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Pessoa criada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Campos obrigatorios ausentes" )
     })
     ResponseEntity<PessoaResponseDTO> salvarPessoa(PessoaRequestDTO pessoaRequestDTO);
-    @Operation(summary = "Operacao para editar Pessoa")
+    @Operation(summary = "Operacao para editar Pessoa",
+    description = "Editar pessoa indicando id na URL e preenchendo nome e data de nascimento no JSON")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pessoa editada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Pessoa nao encontrada"),
@@ -26,7 +27,8 @@ public interface PessoaControllerDocs {
     })
     ResponseEntity<Void> editarPessoa(Long pessoaId, PessoaRequestDTO pessoaRequestDTO);
 
-    @Operation(summary = "Operacao para consultar pessoa")
+    @Operation(summary = "Operacao para consultar pessoa",
+            description = "Consultar pessoa indicando id na URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pessoa encontrada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Pessoa nao encontrada")
