@@ -52,7 +52,7 @@ public class GerenciadorPessoasExceptionHandler extends ResponseEntityExceptionH
                 .forEach(globalErrors -> errors.add("Object " + globalErrors.getObjectName() +
                         " " + globalErrors.getDefaultMessage()));
 
-        return buildResponseEntity(HttpStatus.BAD_REQUEST, "Inform argument(s) validation errors", errors);
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, "Informar erros de validacao do(s) argumento(s)", errors);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GerenciadorPessoasExceptionHandler extends ResponseEntityExceptionH
             WebRequest request) {
 
         return buildResponseEntity(HttpStatus.BAD_REQUEST,
-                "Malformed JSON body, and/or filed error(s)",
+                "Corpo JSON errado e/ou erro(s) arquivado(s)",
                 Collections.singletonList(exception.getLocalizedMessage()));
     }
 
